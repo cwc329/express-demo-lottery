@@ -3,7 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const flash = require('connect-flash');
-const port = pross.env.PORT || 4001;
+const port = pross.env.portApi || 4001;
 
 const indexRouter = require('./routes/index');
 
