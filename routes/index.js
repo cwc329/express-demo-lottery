@@ -5,6 +5,10 @@ const userControllers = require('../controllers/usersControllers');
 
 /* GET home page. */
 
+router.get('/', (req, res, next) => {
+  res.render('index', res.app.locals.viewsVariables);
+});
+
 router.get('/lottery', lotteryControllers.getAllPrizes, lotteryControllers.lottery, (req, res, next) => {
   res.send(res.locals);
 })
@@ -25,12 +29,17 @@ router.delete('/prizes', userControllers.checkPermission, lotteryControllers.del
   res.send(res.locals);
 });
 
-router.get('/', (req, res, next) => {
-  res.render();
+router.post('/login', userControllers.login, (req, res, next) => {
+  res.redirect('/');
+})
+
+router.get('/admin',  (req, res, next) => {
+  res.render('admin', res.app.locals.viewsVariables);
 });
 
-router.get('/admin', userControllers.checkPermission, (req, res, next) => {
-
-});
+router.get('/logout', (req, res, next) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 module.exports = router;

@@ -6,7 +6,7 @@ const port = process.env.portApi || 4001;
 const session = require('express-session');
 const lotteryControllers = require('./controllers/lotteryControllers');
 const sess = {
-  secrect: process.env.secrect,
+  secret: process.env.secret,
   name: 'cwc329_lottery',
   resave: false,
   saveUninitialized: true
@@ -20,6 +20,13 @@ const init = (req, res, next) => {
 const indexRouter = require('./routes/index');
 
 const app = express();
+
+app.locals.viewsVariables = {
+  title: "Lottery!!!",
+}
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
