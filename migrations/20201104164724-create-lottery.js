@@ -13,7 +13,7 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
-      name: {
+      description: {
         type: Sequelize.TEXT,
         unique: true,
         allowNull: false,

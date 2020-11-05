@@ -2,8 +2,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const flash = require('connect-flash');
-const port = pross.env.portApi || 4001;
+const port = process.env.portApi || 4001;
+const session = require('express-session');
+const lotteryControllers = require('./controllers/lotteryControllers');
+const sess = {
+  secrect: process.env.secrect,
+  name: 'cwc329_lottery',
+  resave: false,
+  saveUninitialized: true
+}
+
+const init = (req, res, next) => {
+  res.locals.userId = req.session.userId;
+  next();
+}
 
 const indexRouter = require('./routes/index');
 
@@ -14,7 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash());
+app.use(session(sess));
+app.use(lotteryControllers.getRateSum);
+app.use(init);
 
 app.use('/', indexRouter);
 
