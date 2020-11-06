@@ -10,36 +10,50 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/lottery', lotteryControllers.getAllPrizes, lotteryControllers.lottery, (req, res, next) => {
-  res.send(res.locals);
+  res.send(res.locals.prize);
 })
 
 router.get('/prizes', lotteryControllers.getAllPrizes, function(req, res, next) {
   res.send(res.locals.prizes);
 });
 
+router.get('/prizes/delete/:id', userControllers.checkPermission, lotteryControllers.delete, (req, res, next) => {
+  res.redirect('/admin')
+})
+
 router.post('/prizes', userControllers.checkPermission, lotteryControllers.checkSum, lotteryControllers.add, (req, res, next) => {
-  res.send(res.locals);
+  res.send();
 });
 
+router.post('/prizes/add', userControllers.checkPermission, lotteryControllers.checkSum, lotteryControllers.add, (req, res, next) => {
+  res.redirect('/admin');
+});
+
+router.post('/prizes/edit/:id', userControllers.checkPermission, lotteryControllers.checkSum, lotteryControllers.edit, (req, res, next) => {
+  res.redirect('/admin');
+});
+
+
 router.patch('/prizes', userControllers.checkPermission, lotteryControllers.checkSum, lotteryControllers.edit, (req, res, next) => {
-  res.send(res.locals);
+  res.send();
 });
 
 router.delete('/prizes', userControllers.checkPermission, lotteryControllers.delete, (req, res, next) => {
-  res.send(res.locals);
+  res.send();
 });
 
 router.post('/login', userControllers.login, (req, res, next) => {
-  res.redirect('/');
+  res.redirect('/admin');
 })
 
-router.get('/admin',  (req, res, next) => {
+router.get('/admin', userControllers.checkPermission, lotteryControllers.getAllPrizes, (req, res, next) => {
   res.render('admin', res.app.locals.viewsVariables);
 });
 
 router.get('/logout', (req, res, next) => {
   req.session.destroy();
   res.redirect('/');
-})
+});
+
 
 module.exports = router;

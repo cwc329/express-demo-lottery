@@ -15,27 +15,33 @@ module.exports = {
       {
         prize: '頭獎',
         description: '夏威夷來回機票一張',
-        image: '',
-        rate: 0.05,
+        image: 'https://i.imgur.com/BTXNDaz.jpg',
+        rate: 0.2,
       },
       {
         prize: '二獎',
         description: '墾丁 Villa 住宿券兩張',
-        image: '',
-        rate: 0.1
+        image: 'https://i.imgur.com/ixDvIOe.jpg',
+        rate: 0.2
       },
       {
         prize: '三獎',
         description: '高鐵車票兩張',
-        image: '',
+        image: 'https://i.imgur.com/FoSvFvV.jpg',
         rate: 0.2
       },
       {
         prize: '四獎',
         description: '便利商店禮券 100 元',
-        image: '',
-        rate: 0.6
-      }
+        image: 'https://i.imgur.com/BTilrdo.jpg',
+        rate: 0.2
+      },
+      {
+        prize: '銘謝惠顧',
+        description: '再接再厲，明天會更好',
+        image: 'https://i.imgur.com/rCk10uq.jpg',
+        rate: 0.2
+      },
     ])
   },
 

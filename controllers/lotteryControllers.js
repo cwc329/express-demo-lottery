@@ -22,7 +22,7 @@ const lotteryControllers = {
   },
 
   edit: async (req, res, next) => {
-    const { id } = req.query;
+    const id = req.query.id || req.params.id;
     const { prize, description, rate, image } = req.body;
     const values = {};
     const valuesArray = [{prize}, {description}, {rate}, {image}];
@@ -47,7 +47,7 @@ const lotteryControllers = {
   },
 
   delete: async (req, res, next) => {
-    const {id} = req.query;
+    const id = req.query.id || req.params.id;
     const prize = await Lottery.destroy(
       {
         where: {
@@ -60,23 +60,29 @@ const lotteryControllers = {
 
   getRateSum: async (req, res, next) => {
     const rateSum = await Lottery.sum('rate');
-    res.app.locals.rateSum = rateSum;
+    res.locals.rateSum = rateSum;
     next();
   },
 
   checkSum: async (req, res, next) => {
-    const { id } = req.query;
-    const { rateSum } = req.app.locals;
+    let oldRate = 0;
+    const id = req.query.id || req.params.id;
+    console.log({id});
+    if (id !== undefined) {
+      const prize = await Lottery.findOne({
+        where: {
+          id,
+        }
+      });
+      oldRate = prize.rate;
+    }
+    const { rateSum } = res.locals;
     const { rate } = req.body;
-    const prize = await Lottery.findOne({
-      where: {
-        id,
-      }
-    });
-    let oldRate = prize.rate;
+    if (Math.floor(rate * 10000) === Math.floor(oldRate * 10000)) return next();
     if (Math.floor(rateSum * 10000) + Math.floor(rate * 10000) - Math.floor(oldRate * 10000)> 10000) {
       res.locals.error = true;
       res.locals.errorMessage = 'sum of rate exeeded 1';
+      if (req.path === '/admin') return res.redirect(req.path)
       return res.send(res.locals);
     }
     next();

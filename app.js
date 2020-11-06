@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const port = process.env.portApi || 4001;
 const session = require('express-session');
+const flash = require('connect-flash');
 const lotteryControllers = require('./controllers/lotteryControllers');
 const sess = {
   secret: process.env.secret,
@@ -14,6 +15,7 @@ const sess = {
 
 const init = (req, res, next) => {
   res.locals.userId = req.session.userId;
+  res.locals.errorMessage = req.flash('errorMessage');
   next();
 }
 
@@ -34,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(sess));
+app.use(flash());
 app.use(lotteryControllers.getRateSum);
 app.use(init);
 
