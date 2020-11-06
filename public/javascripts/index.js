@@ -1,4 +1,4 @@
-const ApiEndpoint = 'http://localhost:5001/lottery';
+const ApiEndpoint = 'http://lottery.waynechen.ddnsfree.com/lottery';
 const $prizeCard = $('.prize__card');
 const $prizeLoader = $('.prize__loader');
 
