@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const cors = require('cors');
 const lotteryControllers = require('../controllers/lotteryControllers');
 const userControllers = require('../controllers/usersControllers');
 
@@ -9,7 +10,7 @@ router.get('/', (req, res, next) => {
   res.render('index', res.app.locals.viewsVariables);
 });
 
-router.get('/lottery', lotteryControllers.getAllPrizes, lotteryControllers.lottery, (req, res, next) => {
+router.get('/lottery', lotteryControllers.getAllPrizes, lotteryControllers.lottery, cors(), (req, res, next) => {
   res.send(res.locals.prize);
 })
 
