@@ -81,9 +81,8 @@ const lotteryControllers = {
     if (Math.floor(rate * 10000) === Math.floor(oldRate * 10000)) return next();
     if (Math.floor(rateSum * 10000) + Math.floor(rate * 10000) - Math.floor(oldRate * 10000)> 10000) {
       res.locals.error = true;
-      res.locals.errorMessage = 'sum of rate exeeded 1';
-      if (req.path === '/admin') return res.redirect(req.path)
-      return res.send(res.locals);
+      req.flash('errorMessage', 'sum of rate exceed 1');
+      return res.redirect('back');
     }
     next();
   },
